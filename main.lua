@@ -2,7 +2,18 @@ dofile("dump.lua")
 dofile("ecs.lua")
 
 -- sound effects
-local good, bad
+local good, bad, quit
+
+local function quit_game()
+    print("so long folks!")
+    quit:play()
+
+    -- let sound effect play
+    local now = os.clock() + 1.1
+    repeat until os.clock() >= now
+
+    love.event.quit()
+end
 
 -- button entity component system
 local buttons
@@ -143,8 +154,7 @@ end
 -- multiprocessor, equalizes keyboard and controller
 local function process_keyboard_and_joystick(key)
     if key == "escape" then
-        print("so long folks!")
-        love.event.quit()
+        quit_game()
     end
 
     if key == "space" then
@@ -153,8 +163,7 @@ local function process_keyboard_and_joystick(key)
         print("the button is: " .. text[current_selection])
 
         if text[current_selection] == "quit" then
-            print("so long folks!")
-            love.event.quit()
+            quit_game()
         end
     end
 
@@ -209,10 +218,10 @@ end
 -- loader function, called on engine load
 function love.load()
 
-
     -- load sound effects
     good = love.audio.newSource("sounds/good.ogg", "static")
     bad = love.audio.newSource("sounds/bad.ogg", "static")
+    quit = love.audio.newSource("sounds/quit.ogg", "static")
 
     -- initialize the buttons ecs
     buttons = ecs:new()
