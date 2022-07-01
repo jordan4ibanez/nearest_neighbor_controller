@@ -90,18 +90,34 @@ local function process_button_switch(direction)
                 end
             end
         end
-
     -- positive (+) X axis
     elseif direction == "right" then
-        print("right")
-
+        for i = 1,max_buttons do
+            if i ~= current_selection then
+                if center_x[i] > current_x then
+                    table.insert(possible_buttons, i)
+                end
+            end
+        end
     -- negative (-) Y axis - canvas starts at 0 top
     elseif direction == "up" then
-        print("up")
+        for i = 1,max_buttons do
+            if i ~= current_selection then
+                if center_y[i] < current_y then
+                    table.insert(possible_buttons, i)
+                end
+            end
+        end
 
     -- positive (+) Y axis - canvas starts at 0 top
     elseif direction == "down" then
-        print("down")
+        for i = 1,max_buttons do
+            if i ~= current_selection then
+                if center_y[i] > current_y then
+                    table.insert(possible_buttons, i)
+                end
+            end
+        end
     end
 
 
@@ -149,12 +165,11 @@ end
 
 -- controller - reinterpreted input
 function love.gamepadpressed(joystick, button)
+
     if button == "dpup" or button == "dpdown" or button == "dpleft" or button == "dpright" then
         process_button_switch(button:sub(3))
     end
-end
 
-function love.gamepadpressed(joystick, button)
     if button == "a" then
         process_keyboard_and_joystick("space")
     elseif button == "b" then
@@ -235,6 +250,38 @@ function love.load()
         size_y = 50,
         position_x = 74,
         position_y = 222
+    })
+
+    add_button({
+        text = "5",
+        size_x = 50,
+        size_y = 100,
+        position_x = 600,
+        position_y = 500
+    })
+
+    add_button({
+        text = "6",
+        size_x = 200,
+        size_y = 100,
+        position_x = 300,
+        position_y = 467
+    })
+
+    add_button({
+        text = "don't quit",
+        size_x = 200,
+        size_y = 100,
+        position_x = 900,
+        position_y = 307
+    })
+
+    add_button({
+        text = "quit",
+        size_x = 200,
+        size_y = 100,
+        position_x = 900,
+        position_y = 565
     })
 
 
