@@ -1,3 +1,4 @@
+dofile("dump.lua")
 dofile("ecs.lua")
 
 -- button entity component system
@@ -44,7 +45,7 @@ local function process_button_switch(direction)
             end
         end
 
-        
+
     -- positive (+) X axis
     elseif direction == "right" then
         print("right")
