@@ -16,12 +16,58 @@ local current_selection = 1
 -- api to process nearest neighbor to the button - direction is a string literal
 
 -- contains calculations for nearest neighbor
+local function calculate_distance(x1, x2, y1, y2)
 
-local function get_nearest_neighbor(entity_table)
+    local distance_x = x1 - x2
+    local distance_y = y1 - y2
 
+    -- basic geometry calculation for literal distance
+    return math.sqrt(distance_x * distance_x + distance_y * distance_y)
 end
 
+-- sorting algorithm
+local function compare(a,b)
+    return a[2] < b[2]
+end
+
+-- runs through to find the closest neighbor
+local function get_nearest_neighbor_and_set_new_selected_button(entity_table)
+
+    -- don't process if no possible choice
+    if #entity_table <= 0 then
+        return
+    end
+
+    -- distance cache
+    local distance_cache = {}
+
+    -- accomodate only required components
+    local center_x = buttons:get_component("center_x")
+    local center_y = buttons:get_component("center_y")
+
+    -- cache current location
+    local current_x = center_x[current_selection]
+    local current_y = center_y[current_selection]
+
+    -- process all distances
+    for _,key in ipairs(entity_table) do
+        table.insert(distance_cache, {key, calculate_distance(current_x, center_x[key], current_y, center_y[key])})
+    end
+
+    -- sort it
+    table.sort(distance_cache, compare)
+
+    -- set new selection
+    current_selection = distance_cache[1][1]
+end
+
+
+-- processes which direction the "cursor" wants to go
 local function process_button_switch(direction)
+
+
+    -- hold previous selection in memory
+    local old_selection = current_selection
 
     -- accomodate only required components
     local center_x = buttons:get_component("center_x")
@@ -45,7 +91,6 @@ local function process_button_switch(direction)
             end
         end
 
-
     -- positive (+) X axis
     elseif direction == "right" then
         print("right")
@@ -57,6 +102,18 @@ local function process_button_switch(direction)
     -- positive (+) Y axis - canvas starts at 0 top
     elseif direction == "down" then
         print("down")
+    end
+
+
+    --print(dump(possible_buttons))
+
+    get_nearest_neighbor_and_set_new_selected_button(possible_buttons)
+
+    
+    if current_selection == old_selection then
+        print("play bad sound")
+    else
+        print("play good sound")
     end
 end
 
@@ -149,7 +206,7 @@ function love.load()
     -- add some buttons in for testing
 
     add_button({
-        text = "my_test_1",
+        text = "1",
         size_x = 100,
         size_y = 50,
         position_x = 100,
@@ -157,7 +214,7 @@ function love.load()
     })
 
     add_button({
-        text = "blarf",
+        text = "2",
         size_x = 50,
         size_y = 50,
         position_x = 200,
@@ -165,7 +222,7 @@ function love.load()
     })
 
     add_button({
-        text = "wow a button",
+        text = "3",
         size_x = 200,
         size_y = 70,
         position_x = 500,
@@ -173,7 +230,7 @@ function love.load()
     })
 
     add_button({
-        text = "blep",
+        text = "4",
         size_x = 50,
         size_y = 50,
         position_x = 74,
@@ -183,7 +240,7 @@ function love.load()
 
     -- randomize which button is selected
     math.randomseed(os.time())
-    current_selection = math.random(1,buttons.entity_count)
+    current_selection = 3 -- math.random(1,buttons.entity_count)
 end
 
 -- update loop, the engine loop process
@@ -221,6 +278,16 @@ local function draw_buttons()
     -- draw text last
     for i = 1,buttons.entity_count do
         love.graphics.print( text[i], position_x[i] + 3, position_y[i] + 3)
+    end
+
+    -- debug - draw center
+    local center_x = buttons:get_component("center_x")
+    local center_y = buttons:get_component("center_y")
+
+    love.graphics.setColor(0,1,0,1)
+
+    for i = 1,buttons.entity_count do
+        love.graphics.circle( "fill", center_x[i], center_y[i], 3)
     end
 
 end
