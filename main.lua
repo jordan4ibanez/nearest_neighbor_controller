@@ -1,12 +1,5 @@
 dofile("ecs.lua")
 
-function love.keypressed(key)
-    if key == "escape" then
-        print("so long folks!")
-        love.event.quit()
-    end
-end
-
 -- button entity component system
 local buttons
 
@@ -17,6 +10,18 @@ local buttons
 ]]--
 
 local current_selection = 1
+
+-- user input
+function love.keypressed(key)
+    if key == "escape" then
+        print("so long folks!")
+        love.event.quit()
+    end
+
+    if key == "space" then
+        print("QUIT NOW")
+    end
+end
 
 
 -- a basic api funcion for quickly adding buttons
@@ -94,6 +99,10 @@ function love.load()
         position_y = 222
     })
 
+
+    -- randomize which button is selected
+    math.randomseed(os.time())
+    current_selection = math.random(1,buttons.entity_count)
 end
 
 -- update loop, the engine loop process
