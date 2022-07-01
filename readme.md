@@ -11,3 +11,14 @@ This was created for not only my own sake of learning but for anyone to utilize 
 
 This is tested only on Xbox One controllers OR keyboard. If you find it works correctly with any other controller, feel free to tell me.
 
+# Controls
+
+## keyboard:
+Directional arrows: navigate
+Space: select
+Escape: quit
+
+## xbox controller:
+Dpad: navigate
+A: select
+B: quit
