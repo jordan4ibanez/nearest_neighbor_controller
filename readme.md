@@ -6,7 +6,7 @@ This was created for not only my own sake of learning but for anyone to utilize 
 
 # Requirements
 
-1. Love2D
+1. Love2D 11.4 (make a pr if this needs a version update so I can test it)
 2. An Xbox One controller
 
 This is tested only on Xbox One controllers. If you find it works correctly with any other controller, feel free to tell me.
