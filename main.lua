@@ -5,9 +5,20 @@ function love.keypressed(key)
     end
 end
 
+-- button entity component system
+local buttons
 
 -- loader function, called on engine load
 function love.load()
+
+    buttons = ecs:new()
+
+    buttons:add_components({
+        "size_x",
+        "size_y",
+        "position_x",
+        "position_y"
+    })
 
 end
 
