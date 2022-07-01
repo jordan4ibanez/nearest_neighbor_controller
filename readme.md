@@ -4,6 +4,8 @@ This is a basic test utilizing 2D nearest neighbor button switching when you pre
 
 This was created for not only my own sake of learning but for anyone to utilize in their project as a reference.
 
+Here's a video of it in action: https://youtu.be/nwTDLpMcuXU
+
 # Requirements
 
 1. Love2D 11.4 (make a pr if this needs a version update so I can test it)
