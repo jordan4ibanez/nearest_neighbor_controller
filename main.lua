@@ -15,18 +15,20 @@ local current_selection = 1
 local function process_button_switch(direction)
 
     if direction == "left" then
-
+        print("left")
     elseif direction == "right" then
-
+        print("right")
     elseif direction == "up" then
-
+        print("up")
     elseif direction == "down" then
-        
+        print("down")
     end
 end
 
 -- user input
-function love.keypressed(key)
+
+-- multiprocessor, equalizes keyboard and controller
+local function process_keyboard_and_joystick(key)
     if key == "escape" then
         print("so long folks!")
         love.event.quit()
@@ -42,8 +44,31 @@ function love.keypressed(key)
             love.event.quit()
         end
     end
+
+    if key == "up" or key == "down" or key == "left" or key == "right" then
+        process_button_switch(key)
+    end
 end
 
+-- keyboard - direct function input
+function love.keypressed(key)
+    process_keyboard_and_joystick(key)
+end
+
+-- controller - reinterpreted input
+function love.gamepadpressed(joystick, button)
+    if button == "dpup" or button == "dpdown" or button == "dpleft" or button == "dpright" then
+        process_button_switch(button:sub(3))
+    end
+end
+
+function love.gamepadpressed(joystick, button)
+    if button == "a" then
+        process_keyboard_and_joystick("space")
+    elseif button == "b" then
+        process_keyboard_and_joystick("escape")
+    end
+end
 
 -- a basic api funcion for quickly adding buttons
 local function add_button(button_table)
