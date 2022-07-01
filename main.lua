@@ -19,7 +19,14 @@ function love.keypressed(key)
     end
 
     if key == "space" then
-        print("QUIT NOW")
+        local text = buttons:get_component("text")
+
+        print("the button is: " .. text[current_selection])
+
+        if text[current_selection] == "quit" then
+            print("so long folks!")
+            love.event.quit()
+        end
     end
 end
 
