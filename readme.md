@@ -17,10 +17,14 @@ This is tested only on Xbox One controllers OR keyboard. If you find it works co
 
 ## keyboard:
 Directional arrows: navigate
+
 Space: select
+
 Escape: quit
 
 ## xbox controller:
 Dpad: navigate
+
 A: select
+
 B: quit
