@@ -1,6 +1,9 @@
 dofile("dump.lua")
 dofile("ecs.lua")
 
+-- sound effects
+local good, bad
+
 -- button entity component system
 local buttons
 
@@ -127,9 +130,11 @@ local function process_button_switch(direction)
 
     
     if current_selection == old_selection then
-        print("play bad sound")
+        bad:stop()
+        bad:play()
     else
-        print("play good sound")
+        good:stop()
+        good:play()
     end
 end
 
@@ -204,7 +209,10 @@ end
 -- loader function, called on engine load
 function love.load()
 
-    
+
+    -- load sound effects
+    good = love.audio.newSource("sounds/good.ogg", "static")
+    bad = love.audio.newSource("sounds/bad.ogg", "static")
 
     -- initialize the buttons ecs
     buttons = ecs:new()
