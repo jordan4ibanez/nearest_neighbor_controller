@@ -11,15 +11,49 @@ local buttons
 
 local current_selection = 1
 
+
 -- api to process nearest neighbor to the button - direction is a string literal
+
+-- contains calculations for nearest neighbor
+
+local function get_nearest_neighbor(entity_table)
+
+end
+
 local function process_button_switch(direction)
 
+    -- accomodate only required components
+    local center_x = buttons:get_component("center_x")
+    local center_y = buttons:get_component("center_y")
+    local max_buttons = buttons.entity_count
+
+    -- cache current location
+    local current_x = center_x[current_selection]
+    local current_y = center_y[current_selection]
+
+    -- collection table for possible choices
+    local possible_buttons = {}
+
+    -- negative (-) X axis
     if direction == "left" then
-        print("left")
+        for i = 1,max_buttons do
+            if i ~= current_selection then
+                if center_x[i] < current_x then
+                    table.insert(possible_buttons, i)
+                end
+            end
+        end
+
+        
+    -- positive (+) X axis
     elseif direction == "right" then
         print("right")
+
+    -- negative (-) Y axis - canvas starts at 0 top
     elseif direction == "up" then
         print("up")
+
+    -- positive (+) Y axis - canvas starts at 0 top
     elseif direction == "down" then
         print("down")
     end
