@@ -11,6 +11,20 @@ local buttons
 
 local current_selection = 1
 
+-- api to process nearest neighbor to the button - direction is a string literal
+local function process_button_switch(direction)
+
+    if direction == "left" then
+
+    elseif direction == "right" then
+
+    elseif direction == "up" then
+
+    elseif direction == "down" then
+        
+    end
+end
+
 -- user input
 function love.keypressed(key)
     if key == "escape" then
